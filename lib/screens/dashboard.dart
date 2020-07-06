@@ -13,43 +13,52 @@ class Dashboard extends StatelessWidget {
       appBar: AppBar(
         title: Text('Dashboard'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset('images/bytebank.png'),
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
+      body: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _FeatureItem(
-                  'Transferência',
-                  Icons.monetization_on,
-                  onClick: () => _exibeListaContatos(context),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset('images/bytebank.png'),
                 ),
-                _FeatureItem(
-                  'Lista Transações',
-                  Icons.description,
-                  onClick: () => _exibeListaTrasacoes(context),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: <Widget>[
+                      FeatureItem(
+                        'Transferência',
+                        Icons.monetization_on,
+                        onClick: () => _exibeListaContatos(context),
+                      ),
+                      FeatureItem(
+                        'Lista Transações',
+                        Icons.description,
+                        onClick: () => _exibeListaTrasacoes(context),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
 }
 
-class _FeatureItem extends StatelessWidget {
+class FeatureItem extends StatelessWidget {
   final String titulo;
   final IconData icone;
   final Function onClick;
 
-  _FeatureItem(
+  FeatureItem(
     this.titulo,
     this.icone, {
     @required this.onClick,
