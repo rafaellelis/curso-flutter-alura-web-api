@@ -1,5 +1,6 @@
 import 'package:bytebank/database/dao/cantato_dao.dart';
 import 'package:bytebank/models/Contato.dart';
+import 'package:bytebank/widgets/dependencias_app.dart';
 import 'package:flutter/material.dart';
 
 class FormularioContato extends StatefulWidget {
@@ -9,12 +10,11 @@ class FormularioContato extends StatefulWidget {
 
 class _FormularioContatoState extends State<FormularioContato> {
   final TextEditingController _nomeController = TextEditingController();
-
   final TextEditingController _numeroContaController = TextEditingController();
-  final ContatoDao _contatoDao = ContatoDao();
 
   @override
   Widget build(BuildContext context) {
+    final dependencias = DependenciasApp.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Novo Contato'),
@@ -47,9 +47,7 @@ class _FormularioContatoState extends State<FormularioContato> {
                     final String nome = _nomeController.text;
                     final int conta = int.tryParse(_numeroContaController.text);
                     final Contato novoContato = Contato(0, nome, conta);
-                    _contatoDao.save(novoContato).then(
-                      (id) => Navigator.pop(context),
-                    );
+                    _save(dependencias.contatoDao, novoContato, context);
                   },
                 ),
               ),
@@ -58,5 +56,10 @@ class _FormularioContatoState extends State<FormularioContato> {
         ),
       ),
     );
+  }
+
+  void _save(ContatoDao contatoDao, Contato novoContato, BuildContext context) async{
+    await contatoDao.save(novoContato);
+    Navigator.pop(context);
   }
 }

@@ -3,9 +3,6 @@ import 'package:bytebank/screens/lista_transacoes.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
-  const Dashboard({
-    Key key,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +46,22 @@ class Dashboard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _exibeListaContatos(BuildContext context) {
+    Navigator.of(context).push(
+      (MaterialPageRoute(
+        builder: (context) => ListaContatos(),
+      )),
+    );
+  }
+
+  void _exibeListaTrasacoes(BuildContext context) {
+    Navigator.of(context).push(
+      (MaterialPageRoute(
+        builder: (context) => ListaTransacoes(),
+      )),
     );
   }
 }
@@ -99,20 +112,5 @@ class FeatureItem extends StatelessWidget {
       ),
     );
   }
-}
 
-void _exibeListaContatos(BuildContext context) {
-  Navigator.of(context).push(
-    (MaterialPageRoute(
-      builder: (context) => ListaContatos(),
-    )),
-  );
-}
-
-void _exibeListaTrasacoes(BuildContext context) {
-  Navigator.of(context).push(
-    (MaterialPageRoute(
-      builder: (context) => ListaTransacoes(),
-    )),
-  );
 }

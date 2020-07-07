@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 
-class DialogAutenticacaoTransacao extends StatefulWidget {
+const Key dialogAutenticacaoTransacaoTextFieldSenha =
+    Key('dialogAutenticacaoTransacaoTextFieldSenha');
 
+class DialogAutenticacaoTransacao extends StatefulWidget {
   final Function(String senha) onConfirm;
 
-  const DialogAutenticacaoTransacao({Key key, @required this.onConfirm}) : super(key: key);
+  const DialogAutenticacaoTransacao({Key key, @required this.onConfirm})
+      : super(key: key);
 
   @override
-  _DialogAutenticacaoTransacaoState createState() => _DialogAutenticacaoTransacaoState();
+  _DialogAutenticacaoTransacaoState createState() =>
+      _DialogAutenticacaoTransacaoState();
 }
 
-class _DialogAutenticacaoTransacaoState extends State<DialogAutenticacaoTransacao> {
-
+class _DialogAutenticacaoTransacaoState
+    extends State<DialogAutenticacaoTransacao> {
   final TextEditingController _senhaController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Autenticar'),
       content: TextField(
+        key: dialogAutenticacaoTransacaoTextFieldSenha,
         controller: _senhaController,
         obscureText: true,
         maxLength: 4,

@@ -3,6 +3,17 @@ import 'Contato.dart';
 class Transacao {
   final String id;
   final double valor;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Transacao &&
+          runtimeType == other.runtimeType &&
+          valor == other.valor &&
+          contato == other.contato;
+
+  @override
+  int get hashCode => valor.hashCode ^ contato.hashCode;
   final Contato contato;
 
   Transacao(

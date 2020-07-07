@@ -6,6 +6,7 @@ import 'package:bytebank/components/progress.dart';
 import 'package:bytebank/http/clients/ClienteTransacao.dart';
 import 'package:bytebank/models/Contato.dart';
 import 'package:bytebank/models/Transacao.dart';
+import 'package:bytebank/widgets/dependencias_app.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -20,13 +21,13 @@ class FormularioTransacao extends StatefulWidget {
 
 class _FormularioTransacaoState extends State<FormularioTransacao> {
   final TextEditingController _valueController = TextEditingController();
-  final ClienteTransacao _cliente = ClienteTransacao();
   final String idTransacao = Uuid().v4();
 
   bool _sendind = false;
 
   @override
   Widget build(BuildContext context) {
+    final dependencias = DependenciasApp.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Nova Transação'),
@@ -67,7 +68,7 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
                 child: TextField(
                   controller: _valueController,
                   style: TextStyle(fontSize: 24.0),
-                  decoration: InputDecoration(labelText: 'Value'),
+                  decoration: InputDecoration(labelText: 'Valor'),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                 ),
               ),
@@ -88,7 +89,8 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
                           builder: (contextDialog) =>
                               DialogAutenticacaoTransacao(
                                 onConfirm: (senha) {
-                                  _save(transactionCreated, senha, context);
+                                  _save(dependencias.clienteTransacao,
+                                      transactionCreated, senha, context);
                                 },
                               ));
                     },
@@ -103,11 +105,13 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
   }
 
   void _save(
+    ClienteTransacao clienteTransacao,
     Transacao transactionCreated,
     String senha,
     BuildContext context,
   ) async {
-    Transacao transacao = await _send(transactionCreated, senha, context);
+    Transacao transacao =
+        await _send(clienteTransacao, transactionCreated, senha, context);
     await _exibeMensagemSucesso(transacao, context);
   }
 
@@ -123,13 +127,13 @@ class _FormularioTransacaoState extends State<FormularioTransacao> {
     }
   }
 
-  Future<Transacao> _send(
+  Future<Transacao> _send(ClienteTransacao clienteTransacao,
       Transacao transactionCreated, String senha, BuildContext context) async {
     setState(() {
       _sendind = true;
     });
     final Transacao transacao =
-        await _cliente.save(transactionCreated, senha).catchError((e) {
+        await clienteTransacao.save(transactionCreated, senha).catchError((e) {
       _exibeMensagemFalha(context, message: e.message);
     }, test: (e) => e is HttpException).catchError((e) {
       _exibeMensagemFalha(context,

@@ -1,27 +1,28 @@
 import 'package:bytebank/components/progress.dart';
-import 'package:bytebank/database/dao/cantato_dao.dart';
 import 'package:bytebank/models/Contato.dart';
 import 'package:bytebank/screens/formulario_contato.dart';
 import 'package:bytebank/screens/formulario_transacao.dart';
+import 'package:bytebank/widgets/dependencias_app.dart';
 import 'package:flutter/material.dart';
 
 class ListaContatos extends StatefulWidget {
+
   @override
   _ListaContatosState createState() => _ListaContatosState();
 }
 
 class _ListaContatosState extends State<ListaContatos> {
-  final ContatoDao _contatoDao = ContatoDao();
 
   @override
   Widget build(BuildContext context) {
+    final dependencias = DependenciasApp.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Transferências'),
       ),
       body: FutureBuilder<List<Contato>>(
         initialData: List(),
-        future: _contatoDao.findAll(),
+        future: dependencias.contatoDao.findAll(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -36,7 +37,7 @@ class _ListaContatosState extends State<ListaContatos> {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final Contato contato = contatos[index];
-                  return _ItemContato(
+                  return ItemContato(
                     contato,
                     onClick: () {
                       Navigator.of(context).push(
@@ -69,11 +70,11 @@ class _ListaContatosState extends State<ListaContatos> {
   }
 }
 
-class _ItemContato extends StatelessWidget {
+class ItemContato extends StatelessWidget {
   final Contato contato;
   final Function onClick;
 
-  _ItemContato(
+  ItemContato(
     this.contato, {
     @required this.onClick,
   });
