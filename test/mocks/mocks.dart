@@ -1,4 +1,4 @@
-import 'package:bytebank/database/dao/cantato_dao.dart';
+import 'package:bytebank/database/dao/contato_dao.dart';
 import 'package:bytebank/http/clients/ClienteTransacao.dart';
 import 'package:mockito/mockito.dart';
 

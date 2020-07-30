@@ -1,20 +1,20 @@
 import 'package:bytebank/components/centered_message.dart';
 import 'package:bytebank/components/progress.dart';
-import 'package:bytebank/http/clients/ClienteTransacao.dart';
 import 'package:bytebank/models/Transacao.dart';
+import 'package:bytebank/widgets/dependencias_app.dart';
 import 'package:flutter/material.dart';
 
 class ListaTransacoes extends StatelessWidget {
-  final ClienteTransacao _cliente = ClienteTransacao();
 
   @override
   Widget build(BuildContext context) {
+    final dependencias = DependenciasApp.of(context);
     return Scaffold(
         appBar: AppBar(
           title: Text('Transações'),
         ),
         body: FutureBuilder<List<Transacao>>(
-          future: _cliente.findAll(),
+          future: dependencias.clienteTransacao.findAll(),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:

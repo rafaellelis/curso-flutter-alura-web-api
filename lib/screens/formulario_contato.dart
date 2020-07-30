@@ -1,4 +1,4 @@
-import 'package:bytebank/database/dao/cantato_dao.dart';
+import 'package:bytebank/database/dao/contato_dao.dart';
 import 'package:bytebank/models/Contato.dart';
 import 'package:bytebank/widgets/dependencias_app.dart';
 import 'package:flutter/material.dart';
